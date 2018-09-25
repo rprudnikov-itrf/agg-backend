@@ -27,6 +27,8 @@ namespace AG.Core.Task
                     csv.Configuration.HasHeaderRecord = true;
                     csv.Configuration.Delimiter = ";";
                     csv.Configuration.RegisterClassMap<BankItemMap>();
+                    csv.Configuration.MissingFieldFound = null;
+                    csv.Configuration.ReadingExceptionOccurred = null;
 
                     var result = csv.GetRecords<BankItem>().ToList();
                     if (result != null)
@@ -34,7 +36,7 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2018, 1, 1); date <= new DateTime(2018, 7, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 8, 1); date <= new DateTime(2018, 9, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
@@ -57,9 +59,7 @@ namespace AG.Core.Task
             var start = new DateTime(date.Year, date.Month, 1);
             var end = start.AddMonths(1).AddSeconds(-1);
 
-            var opt = new ParallelOptions() { 
-                MaxDegreeOfParallelism = 8
-            };
+            var opt = new ParallelOptions() { MaxDegreeOfParallelism = 8 };
             foreach (var agg in AggregatorHelper.Aggegator.List().OrderBy(p => p.City)) //.Take(10)
             {
                 Console.WriteLine(agg.City);
@@ -76,8 +76,8 @@ namespace AG.Core.Task
                         //if (item.Key != "96ebf41bb763415c858fb218ccea891d")
                         //    return;
 
-                        if (item.Value.total == 0)
-                            return;
+                        //if (item.Value.total == 0)
+                        //    return;
 
                         item.Value.db_city = agg.City;
                         item.Value.agg = agg.Agg;
@@ -105,7 +105,6 @@ namespace AG.Core.Task
 
                         item.Value.qiwi_off = transactions.Sum(p => p.sum);
 
-                        
                         var payStart = AggregatorHelper.Pays.List(agg.Agg, item.Key, start.AddDays(-1), end)
                             .OrderBy(p => p.date)
                             .Where(p => p.date >= start)
@@ -145,7 +144,6 @@ namespace AG.Core.Task
 
             //file.Add(";;;;;дебет;кредит;;;;;;;;;;дебет;кредит");
             file.Add("Город;ИНН;Договор;Наименование Принципала;логин парка;База;долг парка;долг АТ;Удержана комиссия Яндекс;Удержана комиссия АТ;Покупка смен;Заправки;Перечислено парку;Штрафы Я;Возвраты Пользователям;Ручные возвраты техподдержкой;Пополнения от Принципала;Пополнение от QIWI;Возвраты перечислений парку;Возвраты прочие;Б/Н заказы;Корпаративные заказы;Субсидии;Купоны;Компенсации;Чаевые;Долг парка;Долг АТ");
-
 
             foreach (var report in reports.OrderBy(p => p.Number).GroupBy(p=> p.Number))
             {
