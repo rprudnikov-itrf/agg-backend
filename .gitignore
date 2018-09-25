@@ -256,3 +256,4 @@ tmp/
 .DS_Store
 *.ipa
 App.config
+Web.config
