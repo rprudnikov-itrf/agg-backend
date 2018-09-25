@@ -36,7 +36,7 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2018, 8, 1); date <= new DateTime(2018, 9, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 9, 1); date <= new DateTime(2018, 9, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
@@ -68,7 +68,6 @@ namespace AG.Core.Task
                 if (report == null || report.Acts == null)
                     continue;
 
-                //foreach (var item in report.Acts)
                 Parallel.ForEach(report.Acts, opt, item =>
                 {
                     try
@@ -223,7 +222,7 @@ namespace AG.Core.Task
             }
 
             var text = string.Join(Environment.NewLine, file);
-            File.WriteAllText(@"E:\csv\report\x_report_balance_" + date.ToString("yyyy_MM") + ".csv", text, Encoding.UTF8);
+            File.WriteAllText(@"E:\csv\report\report_balance_" + date.ToString("yyyy_MM") + ".csv", text, Encoding.UTF8);
         }
 
         public static void RunYear(string reportPath)
