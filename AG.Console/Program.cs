@@ -16,28 +16,37 @@ namespace AG
         static void Main(string[] args)
         {
             //обновить договора
-            foreach (var client in AggregatorHelper.Client.List(true)
-                .Where(p => p.Contract != null && !string.IsNullOrEmpty(p.Contract.Number) && p.Contract.Date < new DateTime(2017, 4, 1))
-                .OrderBy(p => p.Number))
-            {
-                var remotePath = YandexDiskHelper.Folders.Combine(StaticHelper.ClientsFolder, client.Contract.Number); 
-                var files = YandexDiskHelper.Folders.Resources(remotePath);
-                if (files != null && files._embedded != null && files._embedded.items != null)
-                {
-                    Console.WriteLine(client.Contract.Number);
+            //var opt = new ParallelOptions() { MaxDegreeOfParallelism = 8 };
+            //var clients = AggregatorHelper.Client.List(true)
+            //    .Where(p => p.Contract != null && !string.IsNullOrEmpty(p.Contract.Number) && p.Contract.Date < new DateTime(2017, 4, 1))
+            //    .OrderBy(p => p.Number);
+            //Parallel.ForEach(clients, opt, client =>
+            //{
+            //    try
+            //    {
+            //        var remotePath = YandexDiskHelper.Folders.Combine(StaticHelper.ClientsFolder, client.Contract.Number);
+            //        var files = YandexDiskHelper.Folders.Resources(remotePath);
+            //        if (files != null && files._embedded != null && files._embedded.items != null)
+            //        {
+            //            Console.WriteLine(client.Contract.Number);
 
-                    var contract = files._embedded.items.Where(p => p.name.StartsWith("contract_"));
-                    if (contract.Any(p => p.name.Contains("_arhiv")))
-                        continue;
+            //            var contract = files._embedded.items.Where(p => p.name.StartsWith("contract_"));
+            //            if (contract.Any(p => p.name.Contains("_arhiv")))
+            //                return;
 
-                    foreach (var item in contract)
-                    {
-                        YandexDiskHelper.Files.Rename(item.path, item.path.Replace(".pdf", "_arhiv.pdf"));
-                    }
+            //            foreach (var item in contract)
+            //            {
+            //                YandexDiskHelper.Files.Rename(item.path, item.path.Replace(".pdf", "_arhiv.pdf"));
+            //            }
 
-                    СгенерироватьДоговор.Run(client.Agg, client.Db, Environment.CurrentDirectory);
-                }
-            }
+            //            СгенерироватьДоговор.Run(client.Agg, client.Db, Environment.CurrentDirectory);
+            //        }
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Console.WriteLine(e.Message);
+            //    }
+            //});
 
 
             //var client = AggregatorHelper.Client.List().Where(p => new[] { 14 }.Contains(p.Number));
@@ -76,7 +85,7 @@ namespace AG
             //ОтчетПереключении.Run();
             //ОтчетОстатки2015.Run();
             //ОборотноСальдоваяВедомость.RunYear(Environment.CurrentDirectory);
-            //ОборотноСальдоваяВедомость.Run(Environment.CurrentDirectory);
+            ОборотноСальдоваяВедомость.Run(Environment.CurrentDirectory);
 
             //for (var i = new DateTime(2018, 8, 1); i <= new DateTime(2018, 8, 1); i = i.AddMonths(1))
             //{
