@@ -149,7 +149,7 @@ namespace AG.Core.Task
                 if (item.Contract != null && item.Contract.Date > end)
                     continue;
 
-                if (item.Balance < 100 && item.Balance > -100)
+                if (item.Balance < 10 && item.Balance > -100)
                     continue;
 
                 if (reports.Any(p => p.agg == item.Agg && p.db == item.Db))
@@ -164,7 +164,8 @@ namespace AG.Core.Task
                     name = item.Name,
                     start_balance = item.Balance,
                     end_balance = item.Balance,
-                    db_number = item.Contract != null ? item.Contract.Number : ""
+                    db_number = item.Contract != null ? item.Contract.Number : "",
+                    inn = item.Company != null ? item.Company.INN : ""
                 };
 
                 reports.Add(report);
