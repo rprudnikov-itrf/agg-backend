@@ -36,7 +36,7 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2018, 9, 1); date <= new DateTime(2018, 9, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 8, 1); date <= new DateTime(2018, 8, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
@@ -54,7 +54,8 @@ namespace AG.Core.Task
                 "ISHOP"
             };
             var file = new List<string>();
-            var clients = AggregatorHelper.Client.List();
+            var clients = AggregatorHelper.Client.List(true);
+            var disabled = AggregatorHelper.Client.Disabled();
             var reports = new List<AggregatorAct>();
             var start = new DateTime(date.Year, date.Month, 1);
             var end = start.AddMonths(1).AddSeconds(-1);
@@ -83,7 +84,6 @@ namespace AG.Core.Task
                         item.Value.db = item.Key;
 
                         var client = clients.FirstOrDefault(p => string.Equals(p.Db, item.Key, StringComparison.CurrentCultureIgnoreCase));
-
                         if (client == null)
                             client = AggregatorHelper.Client.Get(agg.Agg, item.Key);
 
@@ -143,6 +143,37 @@ namespace AG.Core.Task
 
             //file.Add(";;;;;дебет;кредит;;;;;;;;;;дебет;кредит");
             file.Add("Город;ИНН;Договор;Наименование Принципала;логин парка;База;долг парка;долг АТ;Удержана комиссия Яндекс;Удержана комиссия АТ;Покупка смен;Заправки;Перечислено парку;Штрафы Я;Возвраты Пользователям;Ручные возвраты техподдержкой;Пополнения от Принципала;Пополнение от QIWI;Возвраты перечислений парку;Возвраты прочие;Б/Н заказы;Корпаративные заказы;Субсидии;Купоны;Компенсации;Чаевые;Долг парка;Долг АТ");
+
+            //добавить отключенные парки
+            foreach (var item in clients)
+            {
+                var key = item.Agg + ":" + item.Db;
+                if (!disabled.Contains(key))
+                    continue;
+
+                if (item.Contract != null && item.Contract.Date > end)
+                    continue;
+
+                if (item.Balance < 100 && item.Balance > -100)
+                    continue;
+
+                if (reports.Any(p => p.agg == item.Agg && p.db == item.Db))
+                    continue;
+
+                var report = new AggregatorAct()
+                {
+                    agg = item.Agg,
+                    db = item.Db,
+                    db_city = item.City,
+                    db_name = item.Login,
+                    name = item.Name,
+                    start_balance = item.Balance,
+                    end_balance = item.Balance,
+                    db_number = item.Contract != null ? item.Contract.Number : ""
+                };
+
+                reports.Add(report);
+            }
 
             foreach (var report in reports.OrderBy(p => p.Number).GroupBy(p=> p.Number))
             {
@@ -222,7 +253,7 @@ namespace AG.Core.Task
             }
 
             var text = string.Join(Environment.NewLine, file);
-            File.WriteAllText(@"E:\csv\report\report_balance_" + date.ToString("yyyy_MM") + ".csv", text, Encoding.UTF8);
+            File.WriteAllText(@"E:\csv\report\x_report_balance_" + date.ToString("yyyy_MM") + ".csv", text, Encoding.UTF8);
         }
 
         public static void RunYear(string reportPath)
