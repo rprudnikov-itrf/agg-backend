@@ -36,7 +36,7 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2018, 8, 1); date <= new DateTime(2018, 8, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 8, 1); date <= new DateTime(2018, 9, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
@@ -55,7 +55,6 @@ namespace AG.Core.Task
             };
             var file = new List<string>();
             var clients = AggregatorHelper.Client.List(true);
-            var disabled = AggregatorHelper.Client.Disabled();
             var reports = new List<AggregatorAct>();
             var start = new DateTime(date.Year, date.Month, 1);
             var end = start.AddMonths(1).AddSeconds(-1);
@@ -147,10 +146,6 @@ namespace AG.Core.Task
             //добавить отключенные парки
             foreach (var item in clients)
             {
-                var key = item.Agg + ":" + item.Db;
-                if (!disabled.Contains(key))
-                    continue;
-
                 if (item.Contract != null && item.Contract.Date > end)
                     continue;
 

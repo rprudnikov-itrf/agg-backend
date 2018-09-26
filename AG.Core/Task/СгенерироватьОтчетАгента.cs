@@ -39,6 +39,8 @@ namespace AG.Core.Task
                 csv.Configuration.Delimiter = ";";
                 csv.Configuration.RegisterClassMap<ReportItemMap>();
                 csv.Configuration.CultureInfo = System.Globalization.CultureInfo.CurrentCulture;
+                csv.Configuration.MissingFieldFound = null;
+                csv.Configuration.ReadingExceptionOccurred = null;
 
                 var result = csv.GetRecords<ReportItem>().ToList();
                 foreach (var item in result)
