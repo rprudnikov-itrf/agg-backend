@@ -298,5 +298,42 @@ namespace AG.Core.Task
                 csvWrite.WriteRecords(report);
             }
         }
+
+        public static void ДеталировкаВедомости()
+        {
+            var client = AggregatorHelper.Client.List().Where(p => new[] { 14 }.Contains(p.Number));
+            foreach (var item in client)
+            {
+                var pay = AggregatorHelper.Pays.List(item.Agg, item.Db, new DateTime(2017, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddHours(-3), new DateTime(2017, 2, 1, 0, 0, 0, DateTimeKind.Utc).AddHours(-3), true);
+                using (var write = new StreamWriter(string.Format(@"E:\r_{0}_{1}.csv", item.City, item.Number), false, System.Text.Encoding.GetEncoding(1251)) { AutoFlush = true })
+                using (var csvWrite = new CsvWriter(write))
+                {
+                    csvWrite.Configuration.HasHeaderRecord = true;
+                    csvWrite.Configuration.Delimiter = ";";
+                    csvWrite.Configuration.RegisterClassMap<AggregatorPayWriterMap>();
+                    //csvWrite.WriteRecords(pay);
+
+                    var tanker = pay.Where(p => (p.description ?? "").Contains("TANKER:")).ToArray();
+                    if (tanker != null)
+                    {
+
+                    }
+
+                    var items = pay.GroupBy(p => new { p.pay_type, p.group }).Select(p => new AggregatorPay() { sum = p.Sum(e => e.sum_with_factor), description = p.Key.pay_type, group = p.Key.group }).ToList();
+                    items.Add(new AggregatorPay()
+                    {
+                        description = "Начало",
+                        sum = pay.OrderBy(p => p.date).First().balance - pay.OrderBy(p => p.date).First().sum_with_factor
+                    });
+                    items.Add(new AggregatorPay()
+                    {
+                        description = "Конец",
+                        sum = pay.OrderBy(p => p.date).Last().balance
+                    });
+                    csvWrite.WriteRecords(items);
+                }
+            }
+        }
+
     }
 }

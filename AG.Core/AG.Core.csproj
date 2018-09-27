@@ -90,6 +90,7 @@
     <Compile Include="Task\ЗагрузитьПлатежиКиви.cs" />
     <Compile Include="Task\ЗагрузитьСтарыеДокументы.cs" />
     <Compile Include="Task\НалоговаяВыгрузка.cs" />
+    <Compile Include="Task\ОбновитьДоговора.cs" />
     <Compile Include="Task\ОборотноСальдоваяВедомость.cs" />
     <Compile Include="Task\ОтчетОстатки2015.cs" />
     <Compile Include="Task\ОтчетПереключении.cs" />
