@@ -36,7 +36,7 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2018, 8, 1); date <= new DateTime(2018, 9, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 9, 1); date <= new DateTime(2018, 9, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
@@ -146,6 +146,9 @@ namespace AG.Core.Task
             //добавить отключенные парки
             foreach (var item in clients)
             {
+                if (item.Contract == null || string.IsNullOrEmpty(item.Contract.Number))
+                    continue;
+
                 if (item.Contract != null && item.Contract.Date > end)
                     continue;
 
@@ -249,7 +252,7 @@ namespace AG.Core.Task
             }
 
             var text = string.Join(Environment.NewLine, file);
-            File.WriteAllText(@"E:\csv\report\x_report_balance_" + date.ToString("yyyy_MM") + ".csv", text, Encoding.UTF8);
+            File.WriteAllText(@"E:\csv\report\report_balance_" + date.ToString("yyyy_MM") + ".csv", text, Encoding.UTF8);
         }
 
         public static void RunYear(string reportPath)
