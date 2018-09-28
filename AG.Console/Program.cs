@@ -15,6 +15,8 @@ namespace AG
     {
         static void Main(string[] args)
         {
+            АрхивироватьОтчетыАгента.Run();
+
             //ОтчетПереключении.Run();
             //ОтчетОстатки2015.Run();
             //ОборотноСальдоваяВедомость.RunYear(Environment.CurrentDirectory);

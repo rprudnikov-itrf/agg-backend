@@ -9,6 +9,7 @@ namespace AG.Core.Helpers
     public static class StaticHelper
     {
         public const string ClientsFolder = "/Рос.Такси/Контрагенты/";
+        public const string ClientsArhivFolder = "/Рос.Такси/Контрагенты/~arhiv/";
         public const string ReportsFolder = "/Рос.Такси/Сделка/Отчет агента/";
 
         public const string GroupBill = "Счета-фактуры";
