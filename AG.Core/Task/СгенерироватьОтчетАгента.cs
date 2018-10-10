@@ -41,6 +41,8 @@ namespace AG.Core.Task
                 csv.Configuration.CultureInfo = System.Globalization.CultureInfo.CurrentCulture;
                 csv.Configuration.MissingFieldFound = null;
                 csv.Configuration.ReadingExceptionOccurred = null;
+                csv.Configuration.HeaderValidated = null;
+                csv.Configuration.BadDataFound = null;
 
                 var result = csv.GetRecords<ReportItem>().ToList();
                 foreach (var item in result)

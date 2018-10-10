@@ -15,7 +15,8 @@ namespace AG
     {
         static void Main(string[] args)
         {
-            АрхивироватьОтчетыАгента.Run();
+            CSVДеталировка.Run("e55887936e564ee2a6a63470cca4c3a0", "c860d867d1d843cd9cdb467494ee87cd");
+            //АрхивироватьОтчетыАгента.Run();
 
             //ОтчетПереключении.Run();
             //ОтчетОстатки2015.Run();
@@ -37,9 +38,8 @@ namespace AG
             //ЗагрузитьСтарыеДокументы.Run();
 
 
-            //var date = new DateTime(2018, 7, 1);
-            //СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, date, "d9ea4d474cbc48929c5bb779da3352ad");
-            //var date = new DateTime(2017, 12, 1);
+            //var date = new DateTime(2018, 9, 1);
+            //СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, date);
             //СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, date, "bb53804f47c44d978c1e460e5cec63a8");
             //СгенерироватьОтчетВыводы.Run(Environment.CurrentDirectory, date);
             //РассылкаОтчетаАгента.Run(date);
