@@ -20,7 +20,7 @@ namespace AG.Core.Task
         public static void Run(string reportPath)
         {
             var total = 0d;
-            for (var i = new DateTime(2018, 4, 1); i <= new DateTime(2018, 7, 1); i = i.AddMonths(1))
+            for (var i = new DateTime(2018, 8, 1); i <= new DateTime(2018, 9, 1); i = i.AddMonths(1))
             {
                 total += Run(reportPath, i);
             }
