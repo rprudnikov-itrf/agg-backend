@@ -49,8 +49,9 @@ namespace AG
             //СгенерироватьДоговор.Run(Environment.CurrentDirectory);
             //СгенерироватьДоговор.Run("f5ff482cbc764672b93063d64f486a27", "68f1213c5825487b973f1e1279bf8421", Environment.CurrentDirectory, true);
             //ЗагрузитьПлатежиКиви.Run();
-            ЗагрузитьОтчетПоКомиссии.Run(Environment.CurrentDirectory);
+            //ЗагрузитьОтчетПоКомиссии.Run(Environment.CurrentDirectory);
             //CSVСтатистика.Run();
+            НайтиУКогоНетДоговоров.Run();
 
             //СгенерироватьДоговор.Run("d1bf2d6baf30419f8addad3bb0ed1d7b", "f1e7bf84a5db4ab1bb888a95e96826eb", Environment.CurrentDirectory, true); //msk
             //СгенерироватьДоговор.Run("971452918f1a497ba6c9fb71af2d0f21", "85d064616f62484c85aac4afc6769229", Environment.CurrentDirectory, true); //spb
