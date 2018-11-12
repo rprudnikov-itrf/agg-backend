@@ -36,7 +36,7 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2018, 9, 1); date <= new DateTime(2018, 9, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 10, 1); date <= new DateTime(2018, 10, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
