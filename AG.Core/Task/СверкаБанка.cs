@@ -16,7 +16,7 @@ namespace AG
     {
         public static void Run()
         {
-            using (var write = new StreamWriter(@"r:\log.csv", false, System.Text.Encoding.GetEncoding(1251)) { AutoFlush = true })
+            using (var write = new StreamWriter(@"e:\log.csv", false, System.Text.Encoding.GetEncoding(1251)) { AutoFlush = true })
             using (var csvWrite = new CsvWriter(write))
             {
                 csvWrite.Configuration.HasHeaderRecord = true;
@@ -32,6 +32,8 @@ namespace AG
                         csv.Configuration.HasHeaderRecord = true;
                         csv.Configuration.Delimiter = ";";
                         csv.Configuration.RegisterClassMap<BankItemMap>();
+                        csv.Configuration.MissingFieldFound = null;
+                        csv.Configuration.ReadingExceptionOccurred = null;
 
                         var result = csv.GetRecords<BankItem>().ToList();
                         if (result != null)
@@ -61,8 +63,9 @@ namespace AG
                     //Console.WriteLine("Total: {0} = {1}", table.Count(), table.SelectMany(p => p).Sum(p => p.Сумма));
 
                     //Console.WriteLine("Поиск неизвестных переводов");
-                    //var clients = AggregatorHelper.Client.List();
+                    //var clients = AggregatorHelper.Client.List(true);
                     //var inn = new HashSet<string>(clients.Where(p => p.Company != null).Select(p => (p.Company.INN ?? "").Trim()).Distinct());
+                    //var result = new List<BankItem>();
                     //foreach (var item in list)
                     //{
                     //    var _inn = (item.ИННПолучателя ?? "").Trim();
@@ -73,8 +76,9 @@ namespace AG
                     //        continue;
 
                     //    //Console.WriteLine("{0}; {1}; {2}; {3:N2}", item.ИННПолучателя, item.НаименованиеПолучателя, item.ОснованиеПлатежа, item.Сумма);
-                    //    csvWrite.WriteRecord(item);
+                    //    result.Add(item);
                     //}
+                    //csvWrite.WriteRecords(result);
 
                     //Console.WriteLine("Лидеры переводов");
 
@@ -95,14 +99,15 @@ namespace AG
                     //}
 
 
-                    //Console.WriteLine("Переводы НВ");
-                    //var table = list
-                    //    .Where(p => p.НаименованиеПолучателя.ToUpper().Contains("ВЕРАКСО") || "ИНН7735144097".Equals(p.НаименованиеПолучателя))
-                    //    .OrderBy(p => p.Дата);
-                    //foreach (var item in table)
-                    //{
-                    //    csvWrite.WriteRecord(item);
-                    //}
+                    Console.WriteLine("Переводы НВ");
+                    var table = list
+                        .Where(p => p.НаименованиеПолучателя.ToUpper().Contains("ВЕРАКСО")
+                            || p.НаименованиеПолучателя.ToUpper().Contains("РОЗГОН")
+                            || p.ОснованиеПлатежа.ToUpper().Contains("ВЕРАКСО")
+                            || p.ОснованиеПлатежа.ToUpper().Contains("РОЗГОН")
+                        /*|| "ИНН7735144097".Equals(p.НаименованиеПолучателя)*/)
+                        .OrderBy(p => p.Дата);
+                    csvWrite.WriteRecords(table);
                 }
             }
         }
@@ -195,7 +200,9 @@ namespace AG
             "890403398626",
             "7721280413",
             "6671416456",
-            "772506576396"
+            "772506576396",
+            "3123011520",
+            "7702070139"
         };
     }
 }

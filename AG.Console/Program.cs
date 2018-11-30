@@ -15,6 +15,7 @@ namespace AG
     {
         static void Main(string[] args)
         {
+            СверкаБанка.Run();
             //CSVДеталировка.Run("e55887936e564ee2a6a63470cca4c3a0", "c860d867d1d843cd9cdb467494ee87cd");
             //АрхивироватьОтчетыАгента.Run();
 
@@ -61,8 +62,8 @@ namespace AG
             //СверкаБанка.Run();
 
 
-            AggregatorHelper.Bill.Update(date);
-            СгенерироватьСчетаФактуры.Run(date);
+            //AggregatorHelper.Bill.Update(date);
+            //СгенерироватьСчетаФактуры.Run(date);
 
 //            СчетаЯндекс.Run(new DateTime(2018, 10, 1), @"
 //Уфа	20181031000383	 299 559,89   
