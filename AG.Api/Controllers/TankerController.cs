@@ -52,7 +52,47 @@ namespace AG.Api.Controllers
             if (!reportsCsv.ContainsKey(key))
                 return new HttpStatusCodeResult(400);
 
-            return Json(reportsCsv[key], JsonRequestBehavior.AllowGet);
+            var report = reportsCsv[key];
+
+            var cost1 = report.Возвраты_перечислений_парку
+                     + report.Возвраты_прочие
+                     + report.БН_заказы
+                     + report.Компенсации
+                     + report.Чаевые
+                     - report.Штрафы_Я
+                     - report.Возвраты_Пользователям
+                     - report.Ручные_возвраты_техподдержкой;
+
+            var resutl = new ReportCsv()
+            {
+                BalanceStart = report.долг_АТ,
+                BalanceEnd = report.Долг_АТ,
+                Cost1 = cost1,
+                Cost2 = report.Корпаративные_заказы,
+                Cost3 = report.Cубсидии + report.Купоны,
+                Cost4 = report.Удержана_комиссия_Яндекс + report.Покупка_смен,
+                Cost5 = report.Удержана_комиссия_АТ,
+                Cost6 = report.Перечислено_парку
+            };
+
+            resutl.TotalCost = resutl.BalanceStart + resutl.Cost1 + resutl.Cost2 + resutl.Cost3
+                - resutl.Cost4 - resutl.Cost5 - resutl.Cost6;
+
+            return Json(resutl, JsonRequestBehavior.AllowGet);
         }
+    }
+
+    public class ReportCsv
+    {
+        public double BalanceStart { get; set; }
+        public double BalanceEnd { get; set; }
+        public double TotalCost { get; set; }
+
+        public double Cost1 { get; set; }
+        public double Cost2 { get; set; }
+        public double Cost3 { get; set; }
+        public double Cost4 { get; set; }
+        public double Cost5 { get; set; }
+        public double Cost6 { get; set; }
     }
 }
