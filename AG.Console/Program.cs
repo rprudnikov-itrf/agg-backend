@@ -16,7 +16,7 @@ namespace AG
         static void Main(string[] args)
         {
             //СверкаБанка.Run();
-            CSVДеталировка.Run("d1bf2d6baf30419f8addad3bb0ed1d7b", "f9e296addf9649258f018c8a2716158d", new DateTime(2018, 5, 1));
+            //CSVДеталировка.Run("d1bf2d6baf30419f8addad3bb0ed1d7b", "f9e296addf9649258f018c8a2716158d", new DateTime(2018, 5, 1));
             //АрхивироватьОтчетыАгента.Run();
 
             //ОтчетПереключении.Run();
@@ -24,10 +24,11 @@ namespace AG
             //ОборотноСальдоваяВедомость.RunYear(Environment.CurrentDirectory);
             //ОборотноСальдоваяВедомость.Run(Environment.CurrentDirectory);
 
-            //for (var i = new DateTime(2018, 8, 1); i <= new DateTime(2018, 8, 1); i = i.AddMonths(1))
-            //{
-            //    СформироватьСправки.Run(i, Environment.CurrentDirectory);
-            //}
+            for (var i = new DateTime(2018, 1, 1); i <= new DateTime(2018, 11, 1); i = i.AddMonths(1))
+            {
+                //СформироватьСправки.Run(i, Environment.CurrentDirectory);
+                СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, i);
+            }
 
             //СверкаБанка.Run();
 
@@ -39,7 +40,7 @@ namespace AG
             //ЗагрузитьСтарыеДокументы.Run();
 
 
-            var date = new DateTime(2018, 11, 1);
+            //var date = new DateTime(2018, 11, 1);
             //СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, date);
             ////СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, date, "bb53804f47c44d978c1e460e5cec63a8");
             //СгенерироватьОтчетВыводы.Run(Environment.CurrentDirectory, date);
