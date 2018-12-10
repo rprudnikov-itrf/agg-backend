@@ -331,11 +331,17 @@ namespace AG.Core.Helpers
                 request.AddParameter("agg", agg);
                 request.AddParameter("db", db);
 
+                //if (sdate.HasValue)
+                //    request.AddParameter("sdate", sdate.Value.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+
+                //if (edate.HasValue)
+                //    request.AddParameter("edate", edate.Value.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+
                 if (sdate.HasValue)
-                    request.AddParameter("sdate", sdate.Value.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+                    request.AddParameter("sdate", (sdate.Value.Kind == DateTimeKind.Utc ? sdate.Value : TimeZoneInfo.ConvertTimeToUtc(sdate.Value, TimeZoneInfo.Local)).ToString("yyyy-MM-ddTHH:mm:ssZ"));
 
                 if (edate.HasValue)
-                    request.AddParameter("edate", edate.Value.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+                    request.AddParameter("edate", (edate.Value.Kind == DateTimeKind.Utc ? edate.Value : TimeZoneInfo.ConvertTimeToUtc(edate.Value, TimeZoneInfo.Local)).ToString("yyyy-MM-ddTHH:mm:ssZ"));
 
                 //{"sum":191692.602359,"group":3,"factor":-1,"sum_with_factor":-191692.602359}
                 var response = _client.GetRetry<List<AggregatorPay>>(request);

@@ -47,6 +47,7 @@ namespace AG.Core.Task
                         domain.Number,
                         domain.Login,
                         domain.Company != null ? domain.Company.INN : "",
+                        domain.Company != null ? domain.Company.OrgName : "",
                         domain.Enable ? "Работает" : "Отключен",
                         count,
                         string.Join(",", _files)));

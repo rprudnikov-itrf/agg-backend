@@ -36,7 +36,7 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2018, 10, 1); date <= new DateTime(2018, 10, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 1, 1); date <= new DateTime(2018, 10, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
@@ -72,7 +72,7 @@ namespace AG.Core.Task
                 {
                     try
                     {
-                        //if (item.Key != "96ebf41bb763415c858fb218ccea891d")
+                        //if (item.Key != "f9e296addf9649258f018c8a2716158d")
                         //    return;
 
                         //if (item.Value.total == 0)
@@ -200,7 +200,7 @@ namespace AG.Core.Task
                 if (delta != 0)
                 {
                     //смены
-                    var pays = AggregatorHelper.Pays.Group(db.agg, db.db, start.AddHours(3), end.AddHours(3));
+                    var pays = AggregatorHelper.Pays.Group(db.agg, db.db, start, end);
                     var dayPay = pays.Where(p => p.group == 13).Sum(p => p.sum_with_factor) * -1;
                     if (dayPay != 0)
                     {
