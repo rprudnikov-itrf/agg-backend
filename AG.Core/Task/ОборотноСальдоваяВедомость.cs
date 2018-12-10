@@ -19,24 +19,24 @@ namespace AG.Core.Task
         public static void Run(string reportPath)
         {
             var list = new List<BankItem>();
-            foreach (var file in Directory.GetFiles(@"E:\csv", "*.csv"))
-            {
-                using (var reader = new StreamReader(file, System.Text.Encoding.GetEncoding(1251)))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.HasHeaderRecord = true;
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.RegisterClassMap<BankItemMap>();
-                    csv.Configuration.MissingFieldFound = null;
-                    csv.Configuration.ReadingExceptionOccurred = null;
+            //foreach (var file in Directory.GetFiles(@"E:\csv", "*.csv"))
+            //{
+            //    using (var reader = new StreamReader(file, System.Text.Encoding.GetEncoding(1251)))
+            //    using (var csv = new CsvReader(reader))
+            //    {
+            //        csv.Configuration.HasHeaderRecord = true;
+            //        csv.Configuration.Delimiter = ";";
+            //        csv.Configuration.RegisterClassMap<BankItemMap>();
+            //        csv.Configuration.MissingFieldFound = null;
+            //        csv.Configuration.ReadingExceptionOccurred = null;
 
-                    var result = csv.GetRecords<BankItem>().ToList();
-                    if (result != null)
-                        list.AddRange(result);
-                }
-            }
+            //        var result = csv.GetRecords<BankItem>().ToList();
+            //        if (result != null)
+            //            list.AddRange(result);
+            //    }
+            //}
 
-            for (var date = new DateTime(2018, 1, 1); date <= new DateTime(2018, 10, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 9, 1); date <= new DateTime(2018, 11, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
@@ -200,7 +200,7 @@ namespace AG.Core.Task
                 if (delta != 0)
                 {
                     //смены
-                    var pays = AggregatorHelper.Pays.Group(db.agg, db.db, start, end);
+                    var pays = AggregatorHelper.Pays.Group(db.agg, db.db, start.AddHours(-3), end.AddHours(-3));
                     var dayPay = pays.Where(p => p.group == 13).Sum(p => p.sum_with_factor) * -1;
                     if (dayPay != 0)
                     {

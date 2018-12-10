@@ -17,6 +17,14 @@ namespace AG.Core.Task
             var end = start.AddMonths(1).AddSeconds(-1);
 
             var item = AggregatorHelper.Client.Get(agg, db);
+
+            var payg = AggregatorHelper.Pays.Group(agg, db, start.AddHours(-3), end.AddHours(-3));
+            foreach (var pay1 in payg)
+            {
+                Console.WriteLine("{0} = {1:N2}", pay1.group, pay1.sum_with_factor);
+            }
+
+
             var pay = AggregatorHelper.Pays.List(agg, db, start, end, true);
             using (var write = new StreamWriter(string.Format(@"E:\r_{0}_{1}.csv", item.City, item.Number), false, System.Text.Encoding.UTF8) { AutoFlush = true })
             using (var csvWrite = new CsvWriter(write))
@@ -24,7 +32,7 @@ namespace AG.Core.Task
                 csvWrite.Configuration.HasHeaderRecord = true;
                 csvWrite.Configuration.Delimiter = ";";
                 csvWrite.Configuration.RegisterClassMap<AggregatorPayFullWriterMap>();
-                csvWrite.WriteRecords(pay.Where(p => p.group == 16));
+                csvWrite.WriteRecords(pay);
             }
         }
     }

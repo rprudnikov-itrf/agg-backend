@@ -16,7 +16,7 @@ namespace AG
         static void Main(string[] args)
         {
             //СверкаБанка.Run();
-            CSVДеталировка.Run("d1bf2d6baf30419f8addad3bb0ed1d7b", "6f3f213710bc4cba953dcfcf80f9921a", new DateTime(2018, 11, 1));
+            CSVДеталировка.Run("d1bf2d6baf30419f8addad3bb0ed1d7b", "f9e296addf9649258f018c8a2716158d", new DateTime(2018, 5, 1));
             //АрхивироватьОтчетыАгента.Run();
 
             //ОтчетПереключении.Run();

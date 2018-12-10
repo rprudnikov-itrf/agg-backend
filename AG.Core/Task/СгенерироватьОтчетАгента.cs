@@ -111,7 +111,6 @@ namespace AG.Core.Task
                             + reportCsv.БН_заказы
                             + reportCsv.Компенсации
                             + reportCsv.Чаевые
-                            - reportCsv.Заправки
                             - reportCsv.Штрафы_Я
                             - reportCsv.Возвраты_Пользователям
                             - reportCsv.Ручные_возвраты_техподдержкой;
@@ -128,7 +127,7 @@ namespace AG.Core.Task
                         table.Rows.Add("act_add_corp_pay", reportCsv.Корпаративные_заказы.ToString("N2"));
 
                         //Итого задолженность Агента по расчетом перед Принципалом на конец месяца
-                        table.Rows.Add("act_tanker", (reportCsv.Заправки > 0 ? reportCsv.Долг_АТ : 0).ToString("N2"));
+                        //table.Rows.Add("act_tanker", (reportCsv.Заправки > 0 ? reportCsv.Долг_АТ : 0).ToString("N2"));
                         
                         table.Rows.Add("document_number", domain.Contract.Number);
                         table.Rows.Add("document_date", domain.Contract.Date.ToShortDateString());
