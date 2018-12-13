@@ -59,6 +59,8 @@ namespace AG.Api.Controllers
                      + report.БН_заказы
                      + report.Компенсации
                      + report.Чаевые
+                     + report.Пополнение_от_QIWI
+                     + report.Пополнения_от_Принципала
                      - report.Штрафы_Я
                      - report.Возвраты_Пользователям
                      - report.Ручные_возвраты_техподдержкой;

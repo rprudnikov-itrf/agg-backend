@@ -32,7 +32,7 @@ namespace AG.Core.Task
                 csvWrite.Configuration.HasHeaderRecord = true;
                 csvWrite.Configuration.Delimiter = ";";
                 csvWrite.Configuration.RegisterClassMap<AggregatorPayFullWriterMap>();
-                csvWrite.WriteRecords(pay);
+                csvWrite.WriteRecords(pay.Where(p => p.group == 16));
             }
         }
     }

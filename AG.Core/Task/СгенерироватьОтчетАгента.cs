@@ -111,6 +111,8 @@ namespace AG.Core.Task
                             + reportCsv.БН_заказы
                             + reportCsv.Компенсации
                             + reportCsv.Чаевые
+                            + reportCsv.Пополнение_от_QIWI
+                            + reportCsv.Пополнения_от_Принципала
                             - reportCsv.Штрафы_Я
                             - reportCsv.Возвраты_Пользователям
                             - reportCsv.Ручные_возвраты_техподдержкой;
