@@ -93,6 +93,7 @@
     <Compile Include="Task\АрхивироватьОтчетыАгента.cs" />
     <Compile Include="Task\ЗагрузитьОтчетПоКомиссии.cs" />
     <Compile Include="Task\ЗагрузитьПлатежиКиви.cs" />
+    <Compile Include="Task\ЗагрузкаАктовТанкер.cs" />
     <Compile Include="Task\НайтиУКогоНетДоговоров.cs" />
     <Compile Include="Task\ЗагрузитьСтарыеДокументы.cs" />
     <Compile Include="Task\НалоговаяВыгрузка.cs" />

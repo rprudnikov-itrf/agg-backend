@@ -15,6 +15,7 @@ namespace AG.Core.Helpers
         public const string GroupBill = "Счета-фактуры";
         public const string GroupRepot = "Отчет агента";
         public const string GroupCheckout = "Отчет о перечеслении";
+        public const string GroupTanker = "Акт об оказании услуг, зачета взаимных требований";
 
         public static string GenerateDownloadUrl(string public_key)
         {
