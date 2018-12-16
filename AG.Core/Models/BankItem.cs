@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AG.Core.Models
 {
@@ -86,6 +87,31 @@ namespace AG.Core.Models
         public double Долг_парка { get; set; }
         public double Долг_АТ { get; set; }
 
+        public void Null()
+        {
+            долг_АТ = Долг_АТ;
+            долг_парка = 0;
+            Долг_парка = 0;
+            Удержана_комиссия_Яндекс = 0;
+            Удержана_комиссия_АТ = 0;
+            Покупка_смен = 0;
+            Заправки = 0;
+            Перечислено_парку = 0;
+            Штрафы_Я = 0;
+            Возвраты_Пользователям = 0;
+            Ручные_возвраты_техподдержкой = 0;
+            Пополнения_от_Принципала = 0;
+            Пополнение_от_QIWI = 0;
+            Возвраты_перечислений_парку = 0;
+            Возвраты_прочие = 0;
+            БН_заказы = 0;
+            Корпаративные_заказы = 0;
+            Cубсидии = 0;
+            Купоны = 0;
+            Компенсации = 0;
+            Чаевые = 0;
+        }
+
         public static ReportItem operator + (ReportItem a, ReportItem b) 
         {
             a.База += b.База;
@@ -110,6 +136,24 @@ namespace AG.Core.Models
             a.Долг_парка = b.Долг_парка;
             a.Долг_АТ = b.Долг_АТ;
             return a;
+        }
+
+        public int Number
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Договор))
+                    return int.MaxValue;
+
+                var i = 0;
+                var n = Regex.Replace(Договор, "[^0-9]", "");
+
+                if (Договор.Contains("."))
+                    n = Договор.Substring(0, Договор.IndexOf('.'));
+
+                int.TryParse(n, out i);
+                return i;
+            }
         }
     }
 
@@ -160,7 +204,8 @@ namespace AG.Core.Models
 
         public string ConvertToString(object value, CsvHelper.IWriterRow row, MemberMapData memberMapData)
         {
-            return 0d.Equals(value) ? "" : value.ToString();
+            //return 0d.Equals(value) ? "" : value.ToString();
+            return value.ToString();
         }
     }
 }

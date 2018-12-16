@@ -255,6 +255,59 @@ namespace AG.Core.Task
             File.WriteAllText(@"E:\csv\report\report_balance_" + date.ToString("yyyy_MM") + ".csv", text, Encoding.UTF8);
         }
 
+        public static void RunFinish()
+        {
+            for (var date = new DateTime(2016, 2, 1); date < DateTime.Today; date = date.AddMonths(1))
+            {
+                Console.WriteLine("{0:d}", date);
+
+                var dateOld = date.AddMonths(-1);
+                var file1 = string.Format(@"E:\csv\report_full\report_balance_{0}_{1:00}.csv", dateOld.Year, dateOld.Month);
+                var file2 = string.Format(@"E:\csv\report\report_balance_{0}_{1:00}.csv", date.Year, date.Month);
+
+                var reportsCsv1 = ReadFile(file1);
+                var reportsCsv2 = ReadFile(file2);
+                foreach (var item in reportsCsv1)
+                {
+                    var client = reportsCsv2.FirstOrDefault(p => p.Договор == item.Договор && p.логин_парка == item.логин_парка);
+                    if (client != null)
+                        continue;
+
+                    item.Null();
+                    reportsCsv2.Add(item);
+                    Console.WriteLine("\t{0}", item.логин_парка);
+                }
+
+                var fileOut = string.Format(@"E:\csv\report_full\report_balance_{0}_{1:00}.csv", date.Year, date.Month);
+                using (var write = new StreamWriter(fileOut, false, System.Text.Encoding.UTF8) { AutoFlush = true })
+                using (var csvWrite = new CsvWriter(write))
+                {
+                    csvWrite.Configuration.HasHeaderRecord = true;
+                    csvWrite.Configuration.Delimiter = ";";
+                    csvWrite.Configuration.RegisterClassMap<ReportItemMap>();
+                    csvWrite.WriteRecords(reportsCsv2.OrderBy(p => p.Number).ToArray());
+                }
+            }
+        }
+
+        private static List<ReportItem> ReadFile(string file)
+        {
+            using (var reader = new StreamReader(file, System.Text.Encoding.UTF8))
+            using (var csv = new CsvReader(reader))
+            {
+                csv.Configuration.HasHeaderRecord = true;
+                csv.Configuration.Delimiter = ";";
+                csv.Configuration.RegisterClassMap<ReportItemMap>();
+                //csv.Configuration.CultureInfo = System.Globalization.CultureInfo.CurrentCulture;
+                csv.Configuration.MissingFieldFound = null;
+                csv.Configuration.ReadingExceptionOccurred = null;
+                csv.Configuration.HeaderValidated = null;
+                csv.Configuration.BadDataFound = null;
+
+                return csv.GetRecords<ReportItem>().ToList();
+            }
+        }
+
         public static void RunYear(string reportPath)
         {
             var dateStart = new DateTime(2018, 1, 1);
@@ -272,7 +325,7 @@ namespace AG.Core.Task
                     csv.Configuration.HasHeaderRecord = true;
                     csv.Configuration.Delimiter = ";";
                     csv.Configuration.RegisterClassMap<ReportItemMap>();
-                    csv.Configuration.CultureInfo = System.Globalization.CultureInfo.CurrentCulture;
+                    //csv.Configuration.CultureInfo = System.Globalization.CultureInfo.CurrentCulture;
 
                     var result = csv.GetRecords<ReportItem>().ToList();
                     foreach (var item in result)
