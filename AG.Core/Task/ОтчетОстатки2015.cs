@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AG.Core.Task
 {
@@ -14,6 +15,30 @@ namespace AG.Core.Task
     {
         public static void Run()
         {
+            var report = new List<AggregatorAct>();
+            var aggs = AggregatorHelper.Aggegator.List();
+            for (var i = new DateTime(2015, 9, 1); i < DateTime.Today; i = i.AddMonths(1))
+            {
+                Console.WriteLine(i.ToShortDateString());
+
+                foreach (var agg in aggs)
+                {
+                    var items = AggregatorHelper.Report.List(i, agg.Agg);
+                    if (items != null && items.Acts != null)
+                    {
+                        items.Acts.Values.ToList().ForEach(a =>
+                        {
+                            a.agg = agg.Agg;
+                        });
+
+                        report.AddRange(items.Acts.Values);
+                    }
+                }
+            }
+
+            var lockObj = new object();
+            var csvItems = new List<CsvItem>();
+
             using (var write = new StreamWriter(@"E:\balance_2015.csv", false, System.Text.Encoding.UTF8) { AutoFlush = true })
             using (var csvWrite = new CsvWriter(write))
             {
@@ -23,33 +48,44 @@ namespace AG.Core.Task
                 csvWrite.Configuration.Delimiter = ";";
                 csvWrite.Configuration.RegisterClassMap<CsvItemMap>();
 
-                foreach (var item in AggregatorHelper.Client.List(true).OrderBy(p => p.Number))
+                var clients = AggregatorHelper.Client.List(true).OrderBy(p => p.Number);
+                var opt = new ParallelOptions() { MaxDegreeOfParallelism = 8 };
+                Parallel.ForEach(clients, opt, item =>
                 {
-                    if (!ЗагрузитьОтчетПоКомиссии.clients.Contains(item.Login))
-                        continue;
+                    Console.Write(".");
+                    //if (!ЗагрузитьОтчетПоКомиссии.clients.Contains(item.Login))
+                    //    continue;
 
-                    if (item.Contract == null || item.Contract.Date == DateTime.MinValue)
-                        continue;
+                    //if (item.Contract == null || item.Contract.Date == DateTime.MinValue)
+                    //    continue;
 
                     var disable = disabled.Contains(item.Agg + ":" + item.Db);
 
-                    var pay = AggregatorHelper.Pays.List(item.Agg, item.Db, item.Contract.Date.AddHours(-12), item.Contract.Date.AddMonths(1))
+                    var pay = AggregatorHelper.Pays.List(item.Agg, item.Db, null, null)
                         .OrderBy(p => p.date)
-                        .Where(p => p.date >= item.Contract.Date.Date)
+                        //.Where(p => p.date >= item.Contract.Date.Date)
                         .FirstOrDefault();
 
+                    var reports = report.Where(p => p.agg == item.Agg && p.db == item.Db);
 
-                    csvWrite.WriteRecord(new CsvItem()
+                    lock (lockObj)
                     {
-                        Status = disable ? "Отключен" : "Работает",
-                        NumberContract = item.Contract != null ? item.Contract.Number : "",
-                        DateContract = item.Contract != null ? item.Contract.Date : DateTime.MinValue,
-                        Login = item.Login,
-                        INN = item.Company != null ? item.Company.INN : "",
-                        Company = item.Company != null ? item.Company.OrgName : "",
-                        Balance = pay != null ? pay.balance - pay.sum_with_factor : 0d
-                    });
-                }
+                        csvItems.Add(new CsvItem()
+                        {
+                            Status = disable ? "Отключен" : "Работает",
+                            NumberContract = item.Contract != null ? item.Contract.Number : "",
+                            DateContract = item.Contract != null ? item.Contract.Date : DateTime.MinValue,
+                            Login = item.Login,
+                            INN = item.Company != null ? item.Company.INN : "",
+                            Company = item.Company != null ? item.Company.OrgName : "",
+                            Balance = pay != null ? pay.balance - pay.sum_with_factor : 0d,
+                            DateLastPay = pay != null ? pay.date as DateTime? : null,
+                            Null = reports.Sum(p => p.total) == 0
+                        });
+                    }
+                });
+
+                csvWrite.WriteRecords(csvItems.OrderBy(p => p.NumberContract));
             }
         }
 
@@ -63,6 +99,10 @@ namespace AG.Core.Task
             public string Company { get; set; }
 
             public double Balance { get; set; }
+
+            public bool Null { get; set; }
+
+            public DateTime? DateLastPay { get; set; }
         }
 
         class CsvItemMap : ClassMap<CsvItem>

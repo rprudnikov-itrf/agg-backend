@@ -24,7 +24,7 @@ namespace AG
             //ОтчетОстатки2015.Run();
             //ОборотноСальдоваяВедомость.RunYear(Environment.CurrentDirectory);
             //ОборотноСальдоваяВедомость.Run(Environment.CurrentDirectory);
-            ОборотноСальдоваяВедомость.RunFinish();
+            //ОборотноСальдоваяВедомость.RunFinish();
 
             //for (var i = new DateTime(2018, 1, 1); i <= new DateTime(2018, 11, 1); i = i.AddMonths(1))
             //{
@@ -53,7 +53,7 @@ namespace AG
             //СгенерироватьДоговор.Run(Environment.CurrentDirectory);
             //СгенерироватьДоговор.Run("f5ff482cbc764672b93063d64f486a27", "68f1213c5825487b973f1e1279bf8421", Environment.CurrentDirectory, true);
             //ЗагрузитьПлатежиКиви.Run();
-            //ЗагрузитьОтчетПоКомиссии.Run(Environment.CurrentDirectory);
+            ЗагрузитьОтчетПоКомиссии.Run(Environment.CurrentDirectory);
             //CSVСтатистика.Run();
             //НайтиУКогоНетДоговоров.Run();
 
