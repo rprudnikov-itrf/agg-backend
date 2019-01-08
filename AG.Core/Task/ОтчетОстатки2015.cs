@@ -62,7 +62,7 @@ namespace AG.Core.Task
                     var disable = disabled.Contains(item.Agg + ":" + item.Db);
 
                     var pay = AggregatorHelper.Pays.List(item.Agg, item.Db, null, null)
-                        .OrderBy(p => p.date)
+                        .OrderByDescending(p => p.date)
                         //.Where(p => p.date >= item.Contract.Date.Date)
                         .FirstOrDefault();
 
@@ -78,7 +78,7 @@ namespace AG.Core.Task
                             Login = item.Login,
                             INN = item.Company != null ? item.Company.INN : "",
                             Company = item.Company != null ? item.Company.OrgName : "",
-                            Balance = pay != null ? pay.balance - pay.sum_with_factor : 0d,
+                            Balance = item.Balance,
                             DateLastPay = pay != null ? pay.date as DateTime? : null,
                             Null = reports.Sum(p => p.total) == 0
                         });

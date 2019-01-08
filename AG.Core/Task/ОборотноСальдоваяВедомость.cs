@@ -36,7 +36,7 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2017, 1, 1); date <= new DateTime(2017, 10, 1); date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 12, 1); date <= new DateTime(2018, 12, 1); date = date.AddMonths(1))
             {
                 ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
             }
@@ -257,7 +257,7 @@ namespace AG.Core.Task
 
         public static void RunFinish()
         {
-            for (var date = new DateTime(2016, 2, 1); date < DateTime.Today; date = date.AddMonths(1))
+            for (var date = new DateTime(2018, 12, 1); date < DateTime.Today; date = date.AddMonths(1))
             {
                 Console.WriteLine("{0:d}", date);
 
@@ -314,7 +314,7 @@ namespace AG.Core.Task
             var report = new Dictionary<string, ReportItem>();
             for (var date = dateStart; date < dateStart.AddYears(1); date = date.AddMonths(1))
             {
-                var file = string.Format(@"E:\csv\report\report_balance_{0}_{1:00}.csv", date.Year, date.Month);
+                var file = string.Format(@"E:\csv\report_full\report_balance_{0}_{1:00}.csv", date.Year, date.Month);
                 if (!File.Exists(file))
                     continue;
 
@@ -341,7 +341,7 @@ namespace AG.Core.Task
                 }
             }
 
-            var outfile = string.Format(@"E:\csv\report\report_balance_{0}.csv", dateStart.Year);
+            var outfile = string.Format(@"E:\csv\report_full\report_balance_{0}.csv", dateStart.Year);
             using (var write = new StreamWriter(outfile, false, System.Text.Encoding.UTF8) { AutoFlush = true })
             using (var csvWrite = new CsvWriter(write))
             {
