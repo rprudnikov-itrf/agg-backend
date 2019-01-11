@@ -420,7 +420,7 @@ namespace AG.Core.Helpers
 
                     var currentSumBill = sumBill;
                     var reports = AggregatorHelper.Report.List(sdate, agg);
-                    var sumComissiom = reports.Acts.Sum(p => p.Value.complete_commission_yandex);
+                    var sumComissiom = reports.Acts.Sum(p => p.Value.complete_commission_with_workshift);
 
                     if (Math.Abs(sumComissiom) <= 0)
                     {
@@ -428,14 +428,14 @@ namespace AG.Core.Helpers
                         return;
                     }
 
-                    var items = reports.Acts.Where(p => p.Value.complete_commission_yandex > 0).OrderBy(p => p.Key).ToList();
+                    var items = reports.Acts.Where(p => p.Value.complete_commission_with_workshift > 0).OrderBy(p => p.Key).ToList();
                     foreach (var item in items)
                     {
                         var cost = 0d;
                         if (item.Key == items.LastOrDefault().Key)
                             cost = currentSumBill;
                         else
-                            cost = Math.Round(item.Value.complete_commission_yandex / sumComissiom * sumBill, 2);
+                            cost = Math.Round(item.Value.complete_commission_with_workshift / sumComissiom * sumBill, 2);
 
                         currentSumBill -= cost;
 

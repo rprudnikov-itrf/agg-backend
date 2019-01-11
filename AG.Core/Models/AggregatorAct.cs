@@ -72,6 +72,19 @@ namespace AG.Core.Models
 
         public double tanker { get; set; }
 
+        public double complete_commission_with_workshift
+        {
+            get
+            {
+                return complete_commission_yandex + Math.Abs(workshift_pay_yandex);
+            }
+        }
+
+        //смены
+        public double workshift_pay_yandex { get; set; }
+
+        public double workshift_pay_aggregator { get; set; }
+
         public double total
         {
             get

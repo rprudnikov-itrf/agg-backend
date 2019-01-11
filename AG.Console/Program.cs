@@ -23,7 +23,7 @@ namespace AG
             //ОтчетПереключении.Run();
             //ОтчетОстатки2015.Run();
             //ОборотноСальдоваяВедомость.RunFinish();
-            ОборотноСальдоваяВедомость.RunYear(Environment.CurrentDirectory);
+            //ОборотноСальдоваяВедомость.RunYear(Environment.CurrentDirectory);
             //ОборотноСальдоваяВедомость.Run(Environment.CurrentDirectory);
             
 
@@ -43,8 +43,8 @@ namespace AG
             //ЗагрузитьСтарыеДокументы.Run();
 
              
-            var date = new DateTime(2018, 12, 1);
-            СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, date);
+            var date = new DateTime(2018, 11, 1);
+            //СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, date);
             ////СгенерироватьОтчетАгент.Run(Environment.CurrentDirectory, date, "bb53804f47c44d978c1e460e5cec63a8");
             //СгенерироватьОтчетВыводы.Run(Environment.CurrentDirectory, date);
             //РассылкаОтчетаАгента.Run(date);
@@ -67,7 +67,7 @@ namespace AG
 
 
             //AggregatorHelper.Bill.Update(date);
-            //СгенерироватьСчетаФактуры.Run(date);
+            СгенерироватьСчетаФактуры.Run(date);
 
 //            СчетаЯндекс.Run(new DateTime(2018, 11, 1), @"
 //Уфа	20181130000335	 346 521,10   
