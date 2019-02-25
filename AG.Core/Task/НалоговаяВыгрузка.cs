@@ -46,7 +46,7 @@ namespace AG.Core.Task
                 output.AppendLine();
             }
 
-            File.WriteAllText("r:\\docs.csv", output.ToString(), Encoding.UTF8);
+            File.WriteAllText("e:\\docs.csv", output.ToString(), Encoding.UTF8);
         }
 
         //загрузить отчеты агента
