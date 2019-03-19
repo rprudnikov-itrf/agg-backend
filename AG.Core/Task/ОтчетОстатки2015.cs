@@ -53,17 +53,28 @@ namespace AG.Core.Task
                 Parallel.ForEach(clients, opt, item =>
                 {
                     Console.Write(".");
-                    //if (!ЗагрузитьОтчетПоКомиссии.clients.Contains(item.Login))
-                    //    continue;
 
-                    //if (item.Contract == null || item.Contract.Date == DateTime.MinValue)
-                    //    continue;
+                    var hasContract = ЗагрузитьОтчетПоКомиссии.clients.Contains(item.Login);
+
+                    if (item.Contract == null || item.Contract.Date <= DateTime.MinValue.AddDays(1))
+                        return;
 
                     var disable = disabled.Contains(item.Agg + ":" + item.Db);
+                    var dateContract = item.Contract.Date.Date;
+                    if (dateContract >= new DateTime(2016, 1, 1))
+                        dateContract = new DateTime(2015, 12, 31);
+                    
+
+                    var payBalanceTable = AggregatorHelper.Pays.List(item.Agg, item.Db, dateContract.AddMonths(-1), dateContract.AddHours(24))
+                        .OrderBy(p => p.date)
+                        .Where(p => p.date >= dateContract.Date)
+                        .ToArray();
+
+                    var payBalance = payBalanceTable.FirstOrDefault();
 
                     var pay = AggregatorHelper.Pays.List(item.Agg, item.Db, null, null)
                         .OrderByDescending(p => p.date)
-                        //.Where(p => p.date >= item.Contract.Date.Date)
+                        .Where(p => p.date >= item.Contract.Date.Date)
                         .FirstOrDefault();
 
                     var reports = report.Where(p => p.agg == item.Agg && p.db == item.Db);
@@ -78,9 +89,12 @@ namespace AG.Core.Task
                             Login = item.Login,
                             INN = item.Company != null ? item.Company.INN : "",
                             Company = item.Company != null ? item.Company.OrgName : "",
+                            BalanceContract = payBalance != null ? payBalance.balance : 0,
+                            BalanceContractDate = payBalance != null ? payBalance.date as DateTime? : null,
                             Balance = item.Balance,
                             DateLastPay = pay != null ? pay.date as DateTime? : null,
-                            Null = reports.Sum(p => p.total) == 0
+                            Null = reports.Sum(p => p.total) == 0,
+                            HasContract = hasContract
                         });
                     }
                 });
@@ -100,11 +114,17 @@ namespace AG.Core.Task
             public string INN { get; set; }
             public string Company { get; set; }
 
+            public double BalanceContract { get; set; }
+
+            public DateTime? BalanceContractDate { get; set; }
+
             public double Balance { get; set; }
+
+            public DateTime? DateLastPay { get; set; }
 
             public bool Null { get; set; }
 
-            public DateTime? DateLastPay { get; set; }
+            public bool HasContract { get; set; }
         }
 
         class CsvItemMap : ClassMap<CsvItem>

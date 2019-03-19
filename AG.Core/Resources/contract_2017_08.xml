@@ -5191,25 +5191,11 @@
           </w:rPr>
           <w:t>ального директора </w:t>
         </w:r>
-        <w:proofErr w:type="spellStart"/>
         <w:r wsp:rsidR="00474788">
           <w:rPr>
             <w:sz-cs w:val="20"/>
           </w:rPr>
-          <w:t>Вераксо</w:t>
-        </w:r>
-        <w:proofErr w:type="spellEnd"/>
-        <w:r wsp:rsidR="00474788">
-          <w:rPr>
-            <w:sz-cs w:val="20"/>
-          </w:rPr>
-          <w:t> Наталь</w:t>
-        </w:r>
-        <w:r wsp:rsidR="00642F78">
-          <w:rPr>
-            <w:sz-cs w:val="20"/>
-          </w:rPr>
-          <w:t>и Викторовны</w:t>
+          <w:t>Федосеевой Светланы Николаевны</w:t>
         </w:r>
         <w:r wsp:rsidRPr="00D40C4F">
           <w:rPr>
@@ -8859,7 +8845,7 @@
             </w:p>
             <w:p wsp:rsidR="00AD113D" wsp:rsidRPr="00D40C4F" wsp:rsidRDefault="00AD113D">
               <w:r wsp:rsidRPr="00D40C4F">
-                <w:t>_____________ / Вераксо Н.В. / </w:t>
+                <w:t>_____________ / Федосеева С.Н. / </w:t>
               </w:r>
             </w:p>
             <w:p wsp:rsidR="00AD113D" wsp:rsidRPr="00D40C4F" wsp:rsidRDefault="00AD113D"/>
@@ -8947,13 +8933,8 @@
         <w:r wsp:rsidR="008275C3">
           <w:t>рального директора </w:t>
         </w:r>
-        <w:proofErr w:type="spellStart"/>
         <w:r wsp:rsidR="008275C3">
-          <w:t>Вераксо</w:t>
-        </w:r>
-        <w:proofErr w:type="spellEnd"/>
-        <w:r wsp:rsidR="008275C3">
-          <w:t> Н.В.</w:t>
+          <w:t>Федосеева С.Н.</w:t>
         </w:r>
         <w:r wsp:rsidRPr="00D40C4F">
           <w:t>, действующего на основании Устава, составил Отчет о том, что Агентом были выполнены следующие де</w:t>
@@ -13254,7 +13235,7 @@
                 <w:jc w:val="center"/>
               </w:pPr>
               <w:r wsp:rsidRPr="00D40C4F">
-                <w:t>________________ / Вераксо Н.В. / </w:t>
+                <w:t>________________ / Федосеева С.Н. / </w:t>
               </w:r>
             </w:p>
           </w:tc>
@@ -14842,7 +14823,7 @@
                 <w:jc w:val="center"/>
               </w:pPr>
               <w:r wsp:rsidRPr="00D40C4F">
-                <w:t>________________ / Вераксо Н.В. / </w:t>
+                <w:t>________________ / Федосеева С.Н. / </w:t>
               </w:r>
             </w:p>
           </w:tc>

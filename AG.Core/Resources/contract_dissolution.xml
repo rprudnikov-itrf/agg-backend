@@ -2101,14 +2101,7 @@
             <w:sz w:val="22"/>
             <w:sz-cs w:val="24"/>
           </w:rPr>
-          <w:t>Вераксо</w:t>
-        </w:r>
-        <w:r wsp:rsidRPr="0080753B">
-          <w:rPr>
-            <w:sz w:val="22"/>
-            <w:sz-cs w:val="24"/>
-          </w:rPr>
-          <w:t> Н.В., действующей на основании Устава, с одной стороны, и </w:t>
+          <w:t>Федосеева С.Н., действующей на основании Устава, с одной стороны, и </w:t>
         </w:r>
         <w:r wsp:rsidRPr="0080753B">
           <w:rPr>
@@ -3064,15 +3057,7 @@
             </w:p>
             <w:p wsp:rsidR="00000000" wsp:rsidRDefault="00BD5C1C">
               <w:r wsp:rsidRPr="00286298">
-                <w:t>_____________ / </w:t>
-              </w:r>
-              <w:proofErr w:type="spellStart"/>
-              <w:r wsp:rsidRPr="00286298">
-                <w:t>Вераксо</w:t>
-              </w:r>
-              <w:proofErr w:type="spellEnd"/>
-              <w:r wsp:rsidRPr="00286298">
-                <w:t> Н.В. / </w:t>
+                <w:t>_____________ / Федосеева С.Н. /</w:t>
               </w:r>
             </w:p>
           </w:tc>
