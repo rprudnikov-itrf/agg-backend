@@ -189,11 +189,11 @@ namespace AG.Core.Task
                                 Description = StaticHelper.GroupRepot
                             };
 
-                            if (!string.IsNullOrEmpty(dbId))
-                            {
-                                File.WriteAllBytes(@"e:\ag\" + aggregatorFile.FileName, pdf);
-                                return;
-                            }
+                            //if (!string.IsNullOrEmpty(dbId))
+                            //{
+                            //    File.WriteAllBytes(@"e:\ag\" + aggregatorFile.FileName, pdf);
+                            //    return;
+                            //}
 
                             var path = YandexDiskHelper.Folders.Combine(StaticHelper.ClientsFolder, domain.Contract.Number);
                             if (!YandexDiskHelper.Folders.Exist(path))

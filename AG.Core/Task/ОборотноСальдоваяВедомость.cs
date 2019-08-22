@@ -16,7 +16,7 @@ namespace AG.Core.Task
 {
     public static class ОборотноСальдоваяВедомость
     {
-        public static void Run(string reportPath)
+        public static void Run(string reportPath, DateTime date)
         {
             var list = new List<BankItem>();
             foreach (var file in Directory.GetFiles(@"E:\csv", "*.csv"))
@@ -36,10 +36,10 @@ namespace AG.Core.Task
                 }
             }
 
-            for (var date = new DateTime(2019, 1, 1); date <= new DateTime(2019, 1, 1); date = date.AddMonths(1))
-            {
-                ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
-            }
+            //for (var date = new DateTime(2019, 6, 1); date <= new DateTime(2019, 6, 1); date = date.AddMonths(1))
+            //{
+            ОборотноСальдоваяВедомость.Run(date, Environment.CurrentDirectory, list);
+            //}
         }
         public static void Run(DateTime date, string reportPath, List<BankItem> bank)
         {
